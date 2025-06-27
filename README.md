@@ -31,7 +31,7 @@ Dự án mô phông hệ thống E-Wallet (ví điện tử) hoạt động dự
 - Chuyển tiền.
 - Cập nhật thông tin user theo username (gửi OTP).
 
-### 6. Giao dịch chuyển tiền
+### 6. Giao dịch chuyển tiền (OTP)
 - Ghi lại giao dịch vào file CSV.
 - Kiểm tra số dư người gửi, và ràng buộc tổng số dư sau khi chuyển không thay đổi.
 - Ghi nhật ký chi tiết.

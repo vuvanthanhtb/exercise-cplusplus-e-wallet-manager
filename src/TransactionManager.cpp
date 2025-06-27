@@ -1,4 +1,5 @@
 #include "../include/TransactionManager.h"
+#include "../include/utils/OTPUtil.h"
 #include <ctime>
 #include <fstream>
 #include <iomanip>
@@ -73,53 +74,76 @@ void TransactionManager::showHistoryForUser(const string &username) const {
   }
 }
 
-// Chuyển tiền giữa hai người dùng, có kiểm tra và rollback nếu lỗi
+// Chuyển tiền giữa hai người dùng, có xác thực OTP (cho phép sai 3 lần)
 bool TransactionManager::transferPoints(User &from, User &to, double amount,
                                         double totalWalletBalance) {
   if (amount <= 0) {
-    cout << "Chuyển thất bại: Số tiền không hợp lệ.\n";
+    cout << "Chuyển thất bại: Số tiền không hợp lệ." << endl;
     return false;
   }
 
   if (from.getWalletBalance() < amount) {
-    cout << "Chuyển thất bại: Số dư ví không đủ.\n";
+    cout << "Chuyển thất bại: Số dư ví không đủ." << endl;
     return false;
   }
 
-  // Ghi nhớ số dư trước giao dịch để rollback nếu cần
-  double fromOld = from.getWalletBalance();
-  double toOld = to.getWalletBalance();
+  // Bước 1: Tạo và gửi OTP
+  string otp = OTPUtil::generate();
+  cout << "Mã OTP đã được gửi: " << otp << endl;
+  ; // Giả lập gửi OTP
 
-  try {
-    // Trừ tiền người gửi, cộng tiền người nhận
-    from.setWalletBalance(fromOld - amount);
-    to.setWalletBalance(toOld + amount);
+  // Bước 2: Cho phép nhập OTP tối đa 3 lần
+  int maxAttempts = 3;
+  for (int attempt = 1; attempt <= maxAttempts; ++attempt) {
+    string inputOtp;
+    cout << "Nhập mã OTP (" << attempt << "/" << maxAttempts << "): ";
+    getline(cin, inputOtp);
 
-    // Kiểm tra ràng buộc tổng số dư không vượt quá giới hạn
-    if (from.getWalletBalance() + to.getWalletBalance() > totalWalletBalance) {
-      throw runtime_error("Tổng số dư ví vượt quá giới hạn.");
+    if (inputOtp == otp) {
+      // Ghi nhớ số dư trước giao dịch để rollback nếu cần
+      double fromOld = from.getWalletBalance();
+      double toOld = to.getWalletBalance();
+
+      try {
+        from.setWalletBalance(fromOld - amount);
+        to.setWalletBalance(toOld + amount);
+
+        if (from.getWalletBalance() + to.getWalletBalance() >
+            totalWalletBalance) {
+          throw runtime_error("Tổng số dư ví vượt quá giới hạn.");
+        }
+
+        logTransaction(from.getUsername(), to.getUsername(), amount);
+        cout << "Chuyển tiền thành công.\n";
+        return true;
+      } catch (const exception &ex) {
+        from.setWalletBalance(fromOld);
+        to.setWalletBalance(toOld);
+        cout << "Chuyển thất bại: " << ex.what() << endl;
+        ;
+        return false;
+      }
+    } else {
+      if (attempt < maxAttempts) {
+        cout << "Mã OTP không đúng. Vui lòng thử lại." << endl;
+      } else {
+        cout << "Bạn đã nhập sai quá số lần cho phép. Giao dịch bị hủy."
+             << endl;
+        return false;
+      }
     }
-
-    // Lưu lại giao dịch nếu thành công
-    logTransaction(from.getUsername(), to.getUsername(), amount);
-    cout << "Chuyển tiền thành công!\n";
-    return true;
-  } catch (const exception &ex) {
-    // Nếu lỗi, khôi phục lại số dư cũ
-    from.setWalletBalance(fromOld);
-    to.setWalletBalance(toOld);
-    cout << "Chuyển thất bại: " << ex.what() << "\n";
-    return false;
   }
+
+  return false;
 }
 
 void TransactionManager::showDetailedHistoryForUser(
     const string &username) const {
-  cout << "\n[ LỊCH SỬ GIAO DỊCH - " << username << " ]\n";
+  cout << "\n[ LỊCH SỬ GIAO DỊCH - " << username << " ]" << endl;
   cout << left << setw(30) << "Thời gian" << setw(30) << "Từ" << setw(30)
        << "Đến" << setw(20) << "Số tiền" << setw(15) << "Loại" << endl;
 
-  cout << string(150, '-') << "\n";
+  cout << string(150, '-') << endl;
 
   for (const auto &tx : transactions) {
     if (tx.fromUser == username || tx.toUser == username) {

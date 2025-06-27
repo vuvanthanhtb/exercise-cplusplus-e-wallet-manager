@@ -51,17 +51,24 @@ void User::updateInfo() {
   getline(cin, email);
 
   string otp = OTPUtil::generate();
-  cout << "Mã OTP đã gửi: " << otp << endl;
+  cout << "Mã OTP đã được gửi: " << otp << endl; // Giả lập gửi OTP
 
   string input;
-  cout << "Nhập mã OTP: ";
-  getline(cin, input);
+  const int maxAttempts = 3;
 
-  if (input == otp) {
-    cout << "Thông tin đã được cập nhật.\n";
-  } else {
-    cout << "Sai mã OTP. Cập nhật bị hủy.\n";
+  for (int attempt = 1; attempt <= maxAttempts; ++attempt) {
+    cout << "Nhập mã OTP (" << attempt << "/" << maxAttempts << "): ";
+    getline(cin, input);
+
+    if (input == otp) {
+      cout << "Thông tin đã được cập nhật." << endl;
+      return;
+    } else if (attempt < maxAttempts) {
+      cout << "Mã OTP không đúng. Vui lòng thử lại." << endl;
+    }
   }
+
+  cout << "Bạn đã nhập sai quá số lần cho phép. Cập nhật bị hủy." << endl;
 }
 
 // Hiển thị số dư trong ví
@@ -101,7 +108,7 @@ void User::changePasswordWithOTP() {
   getline(cin, currentPass);
 
   if (!PasswordUtil::verifyPassword(currentPass, hashedPassword)) {
-    cout << "Mật khẩu hiện tại không đúng.\n";
+    cout << "Mật khẩu hiện tại không đúng." << endl;
     return;
   }
 
@@ -127,14 +134,14 @@ void User::changePasswordWithOTP() {
   timeoutThread.detach(); // Không chặn luồng chính
 
   if (timeout) {
-    cout << "\nMã OTP đã hết hạn. Phiên làm việc kết thúc.\n";
+    cout << "\nMã OTP đã hết hạn. Phiên làm việc kết thúc." << endl;
     exit(0); // Có thể thay bằng gọi hàm logout nếu cần
   }
 
   if (input == otp) {
     hashedPassword = PasswordUtil::hashPassword(newPass);
-    cout << "Mật khẩu đã được thay đổi thành công.\n";
+    cout << "Mật khẩu đã được thay đổi thành công." << endl;
   } else {
-    cout << "Mã OTP không hợp lệ. Mật khẩu không được thay đổi.\n";
+    cout << "Mã OTP không hợp lệ. Mật khẩu không được thay đổi." << endl;
   }
 }

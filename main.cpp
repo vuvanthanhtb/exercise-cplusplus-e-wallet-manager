@@ -27,7 +27,7 @@ void handleTransferMoney(User *currentUser, UserManager &userManager,
 
   User *recipient = userManager.findByUsername(toUsername);
   if (!recipient) {
-    cout << "Không tìm thấy người nhận.\n";
+    cout << "Không tìm thấy người nhận." << endl;
     return;
   }
 
@@ -43,9 +43,9 @@ void handleTransferMoney(User *currentUser, UserManager &userManager,
 
   if (success) {
     userManager.saveUsers();
-    cout << "Chuyển tiền thành công!\n";
+    cout << "Chuyển tiền thành công!" << endl;
   } else {
-    cout << "Chuyển tiền thất bại.\n";
+    cout << "Chuyển tiền thất bại." << endl;
   }
 }
 
@@ -55,13 +55,13 @@ void showUserMenu(User *user, UserManager &userManager,
   int choice;
   do {
     cout << "\n=== MENU NGƯỜI DÙNG ===" << endl;
-    cout << "1. Xem thông tin tài khoản\n";
-    cout << "2. Xem số dư ví\n";
-    cout << "3. Cập nhật thông tin cá nhân\n";
-    cout << "4. Đổi mật khẩu\n";
-    cout << "5. Chuyển tiền\n";
-    cout << "6. Lịch sử giao dịch\n";
-    cout << "7. Đăng xuất\n";
+    cout << "1. Xem thông tin tài khoản" << endl;
+    cout << "2. Xem số dư ví" << endl;
+    cout << "3. Cập nhật thông tin cá nhân" << endl;
+    cout << "4. Đổi mật khẩu" << endl;
+    cout << "5. Chuyển tiền" << endl;
+    cout << "6. Lịch sử giao dịch" << endl;
+    cout << "7. Đăng xuất" << endl;
     cout << "Chọn chức năng: ";
     cin >> choice;
     cin.ignore();
@@ -90,10 +90,10 @@ void showUserMenu(User *user, UserManager &userManager,
       txManager.showDetailedHistoryForUser(user->getUsername());
       break;
     case 7:
-      cout << "Đăng xuất...\n";
+      cout << "Đăng xuất..." << endl;
       break;
     default:
-      cout << "Lựa chọn không hợp lệ.\n";
+      cout << "Lựa chọn không hợp lệ." << endl;
     }
   } while (choice != 7);
 }
@@ -104,14 +104,14 @@ void showAdminMenu(User *user, UserManager &userManager,
   int choice;
   do {
     cout << "\n=== MENU QUẢN TRỊ VIÊN ===" << endl;
-    cout << "1. Xem danh sách người dùng\n";
-    cout << "2. Tạo tài khoản người dùng mới\n";
-    cout << "3. Cập nhật thông tin cá nhân\n";
-    cout << "4. Đổi mật khẩu\n";
-    cout << "5. Chuyển tiền\n";
-    cout << "6. Cập nhật thông tin người dùng (chỉ quyền 'user')\n";
-    cout << "7. Lịch sử giao dịch\n";
-    cout << "8. Đăng xuất\n";
+    cout << "1. Xem danh sách người dùng" << endl;
+    cout << "2. Tạo tài khoản người dùng mới" << endl;
+    cout << "3. Cập nhật thông tin cá nhân" << endl;
+    cout << "4. Đổi mật khẩu" << endl;
+    cout << "5. Chuyển tiền" << endl;
+    cout << "6. Cập nhật thông tin người dùng (chỉ quyền 'user')" << endl;
+    cout << "7. Lịch sử giao dịch" << endl;
+    cout << "8. Đăng xuất" << endl;
     cout << "Chọn chức năng: ";
     cin >> choice;
     cin.ignore();
@@ -143,10 +143,10 @@ void showAdminMenu(User *user, UserManager &userManager,
       txManager.showDetailedHistoryForUser(user->getUsername());
       break;
     case 8:
-      cout << "Đăng xuất...\n";
+      cout << "Đăng xuất..." << endl;
       break;
     default:
-      cout << "Lựa chọn không hợp lệ.\n";
+      cout << "Lựa chọn không hợp lệ." << endl;
     }
   } while (choice != 8);
 }
@@ -160,10 +160,10 @@ int main() {
   while (true) {
     int choice;
     cout << "\n=== HỆ THỐNG VÍ ĐIỆN TỬ ===" << endl;
-    cout << "1. Đăng nhập\n";
-    cout << "2. Đăng ký\n";
-    cout << "3. Quên mật khẩu\n";
-    cout << "4. Thoát\n";
+    cout << "1. Đăng nhập" << endl;
+    cout << "2. Đăng ký" << endl;
+    cout << "3. Quên mật khẩu" << endl;
+    cout << "4. Thoát" << endl;
     cout << "Chọn chức năng: ";
     cin >> choice;
     cin.ignore();
@@ -190,10 +190,10 @@ int main() {
       authService.resetPassword();
       break;
     case 4:
-      cout << "Tạm biệt!\n";
+      cout << "Tạm biệt!" << endl;
       return 0;
     default:
-      cout << "Lựa chọn không hợp lệ.\n";
+      cout << "Lựa chọn không hợp lệ." << endl;
     }
   }
 

@@ -95,14 +95,14 @@ void UserManager::displayAllUsers() const {
   cout << "\nDanh sách tất cả người dùng:\n";
   cout << left << setw(40) << "ID" << setw(20) << "Họ tên" << setw(25)
        << "Tên đăng nhập" << setw(25) << "Email" << setw(10) << "Quyền" << right
-       << setw(10) << "Số dư" << "\n";
-  cout << string(125, '-') << "\n";
+       << setw(10) << "Số dư" << endl;
+  cout << string(125, '-') << endl;
 
   for (const auto &user : users) {
     cout << left << setw(40) << user.getId() << setw(20) << user.getFullname()
          << setw(20) << user.getUsername() << setw(25) << user.getEmail()
          << setw(10) << user.getRole() << right << setw(10) << fixed
-         << setprecision(2) << user.getWalletBalance() << "\n";
+         << setprecision(2) << user.getWalletBalance() << endl;
   }
 }
 
@@ -115,16 +115,16 @@ void UserManager::updateUserByUsername() {
   for (auto &user : users) {
     if (user.getUsername() == username) {
       if (user.getRole() != "user") {
-        cout << "Chỉ có thể cập nhật người dùng có quyền 'user'.\n";
+        cout << "Chỉ có thể cập nhật người dùng có quyền 'user'." << endl;
         return;
       }
 
-      cout << "Đang cập nhật thông tin cho: " << username << "\n";
+      cout << "Đang cập nhật thông tin cho: " << username << endl;
       user.updateInfo(); // Cập nhật thông tin kèm OTP
       saveUsers();
       return;
     }
   }
 
-  cout << "Không tìm thấy người dùng.\n";
+  cout << "Không tìm thấy người dùng." << endl;
 }

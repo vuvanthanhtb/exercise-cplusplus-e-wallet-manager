@@ -19,12 +19,12 @@ User *AuthService::login() {
   User *user = userManager.findByUsername(username);
   if (user &&
       PasswordUtil::verifyPassword(password, user->getHashedPassword())) {
-    cout << "Đăng nhập thành công!\n";
+    cout << "Đăng nhập thành công!" << endl;
     AuthService::setCurrentUser(user);
     return user;
   }
 
-  cout << "Tên đăng nhập hoặc mật khẩu không đúng.\n";
+  cout << "Tên đăng nhập hoặc mật khẩu không đúng." << endl;
   return nullptr;
 }
 
@@ -61,7 +61,7 @@ void AuthService::registerUser() {
   User newUser(fullname, username, email, hashed, role, 0.0);
   userManager.addUser(newUser);
 
-  cout << "Tạo tài khoản thành công.\n";
+  cout << "Tạo tài khoản thành công." << endl;
 }
 
 // Đặt lại mật khẩu qua email
@@ -72,29 +72,36 @@ void AuthService::resetPassword() {
 
   User *user = userManager.findByEmail(email);
   if (!user) {
-    cout << "Không tìm thấy email trong hệ thống.\n";
+    cout << "Không tìm thấy email trong hệ thống." << endl;
     return;
   }
 
-  // Tạo mật khẩu mới và OTP
+  // Tạo mật khẩu mới và mã OTP
   string newPassword = RandomUtil::generateRandomString(8);
   string otp = OTPUtil::generate();
 
-  // Gửi thông báo (giả lập gửi email)
+  // Giả lập gửi email
   cout << "OTP đã được gửi qua email: " << otp << endl;
-  cout << "Mật khẩu mới (được gửi kèm qua email): " << newPassword << endl;
+  cout << "Mật khẩu mới cũng đã được gửi qua email: " << newPassword << endl;
 
-  // Nhập OTP để xác nhận
   string inputOtp;
-  cout << "Nhập mã OTP: ";
-  getline(cin, inputOtp);
+  const int maxAttempts = 3;
 
-  if (inputOtp == otp) {
-    string hashed = PasswordUtil::hashPassword(newPassword);
-    user->setPassword(hashed);
-    userManager.saveUsers();
-    cout << "Mật khẩu đã được đặt lại thành công.\n";
-  } else {
-    cout << "Mã OTP không đúng. Mật khẩu không được thay đổi.\n";
+  for (int attempt = 1; attempt <= maxAttempts; ++attempt) {
+    cout << "Nhập mã OTP (" << attempt << "/" << maxAttempts << "): ";
+    getline(cin, inputOtp);
+
+    if (inputOtp == otp) {
+      string hashed = PasswordUtil::hashPassword(newPassword);
+      user->setPassword(hashed);
+      userManager.saveUsers();
+      cout << "Mật khẩu đã được đặt lại thành công." << endl;
+      return;
+    } else if (attempt < maxAttempts) {
+      cout << "Mã OTP không đúng. Vui lòng thử lại." << endl;
+    }
   }
+
+  cout << "Bạn đã nhập sai quá số lần cho phép. Mật khẩu không được thay đổi."
+       << endl;
 }
