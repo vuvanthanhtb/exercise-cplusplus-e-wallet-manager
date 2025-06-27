@@ -1,5 +1,4 @@
 #include "../include/AuthService.h"
-#include "../include/utils/PasswordUtil.h"
 #include "../include/utils/OTPUtil.h"
 #include "../include/utils/PasswordUtil.h"
 #include "../include/utils/RandomUtil.h"
@@ -19,10 +18,10 @@ User *AuthService::login() {
 
   User *user = userManager.findByUsername(username);
   if (user &&
-	  PasswordUtil::verifyPassword(password, user->getHashedPassword())) {
-	cout << "Đăng nhập thành công!\n";
-	AuthService::setCurrentUser(user);
-	return user;
+      PasswordUtil::verifyPassword(password, user->getHashedPassword())) {
+    cout << "Đăng nhập thành công!\n";
+    AuthService::setCurrentUser(user);
+    return user;
   }
 
   cout << "Tên đăng nhập hoặc mật khẩu không đúng.\n";
@@ -45,16 +44,16 @@ void AuthService::registerUser() {
 
   // Nếu không có người dùng hiện tại (tức là người dùng tự đăng ký)
   if (currentUser->getUsername().empty()) {
-	role = "user";
+    role = "user";
   } else {
-	cout << "Phân quyền (user/admin): ";
-	getline(cin, role);
+    cout << "Phân quyền (user/admin): ";
+    getline(cin, role);
   }
 
   // Kiểm tra tên đăng nhập đã tồn tại
   if (userManager.findByUsername(username)) {
-	cout << "Tên đăng nhập đã tồn tại.\n";
-	return;
+    cout << "Tên đăng nhập đã tồn tại.\n";
+    return;
   }
 
   // Mã hóa mật khẩu và tạo tài khoản
@@ -73,8 +72,8 @@ void AuthService::resetPassword() {
 
   User *user = userManager.findByEmail(email);
   if (!user) {
-	cout << "Không tìm thấy email trong hệ thống.\n";
-	return;
+    cout << "Không tìm thấy email trong hệ thống.\n";
+    return;
   }
 
   // Tạo mật khẩu mới và OTP
@@ -91,11 +90,11 @@ void AuthService::resetPassword() {
   getline(cin, inputOtp);
 
   if (inputOtp == otp) {
-	string hashed = PasswordUtil::hashPassword(newPassword);
-	user->setPassword(hashed);
-	userManager.saveUsers();
-	cout << "Mật khẩu đã được đặt lại thành công.\n";
+    string hashed = PasswordUtil::hashPassword(newPassword);
+    user->setPassword(hashed);
+    userManager.saveUsers();
+    cout << "Mật khẩu đã được đặt lại thành công.\n";
   } else {
-	cout << "Mã OTP không đúng. Mật khẩu không được thay đổi.\n";
+    cout << "Mã OTP không đúng. Mật khẩu không được thay đổi.\n";
   }
 }
