@@ -12,7 +12,6 @@ using namespace std;
 
 User::User() {}
 
-// Constructor khởi tạo User mới
 User::User(string fn, string un, string em, string hp, string rl, double wb)
     : fullname(fn), username(un), email(em), hashedPassword(hp), role(rl),
       walletBalance(wb) {

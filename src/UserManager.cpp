@@ -6,7 +6,6 @@
 
 using namespace std;
 
-// Hàm khởi tạo, nhận tên file dữ liệu người dùng
 UserManager::UserManager(const string &filename) : dataFile(filename) {
   loadUsers(); // Tải dữ liệu người dùng từ file khi khởi tạo
 }

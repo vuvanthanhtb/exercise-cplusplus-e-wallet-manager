@@ -27,7 +27,6 @@ Transaction Transaction::fromCSV(const string &line) {
   return tx;
 }
 
-// Constructor: khởi tạo với tên file giao dịch
 TransactionManager::TransactionManager(const string &filename)
     : transactionFile(filename) {
   loadTransactions(); // nạp dữ liệu từ file
