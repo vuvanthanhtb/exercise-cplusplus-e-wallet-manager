@@ -1,6 +1,4 @@
-# Tóm tắt dự án E-Wallet
-
-## Ảnh nhìn chung
+# Tóm tắt bài tập E-Wallet
 Dự án mô phông hệ thống E-Wallet (ví điện tử) hoạt động dựa trên giao diện console, cho phép người dùng quản lý tài khoản, chuyển tiền, và theo dõi giao dịch.
 
 ## Chức năng chính
