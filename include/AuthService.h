@@ -13,7 +13,7 @@ public:
   AuthService(UserManager &um);
 
   void setCurrentUser(User *user) { currentUser = user; }
-  User *getCurrentUserr() { return currentUser; }
+  User *getCurrentUser() { return currentUser; }
 
   User *login();
   void registerUser();

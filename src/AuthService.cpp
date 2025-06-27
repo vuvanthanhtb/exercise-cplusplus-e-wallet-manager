@@ -30,7 +30,7 @@ User *AuthService::login() {
 
 // Đăng ký tài khoản mới (admin có thể tạo cả tài khoản user/admin)
 void AuthService::registerUser() {
-  User *currentUser = AuthService::getCurrentUserr();
+  User *currentUser = AuthService::getCurrentUser();
   string fullname, username, email, password, role;
 
   cout << "\n=== ĐĂNG KÝ TÀI KHOẢN ===\nHọ và tên: ";
