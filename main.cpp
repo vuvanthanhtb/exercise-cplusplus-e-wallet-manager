@@ -158,15 +158,23 @@ int main() {
   TransactionManager txManager("data/transactions.csv");
 
   while (true) {
-    int choice;
+    string input;
+    int choice = -1;
+
     cout << "\n=== HỆ THỐNG VÍ ĐIỆN TỬ ===" << endl;
     cout << "1. Đăng nhập" << endl;
     cout << "2. Đăng ký" << endl;
     cout << "3. Quên mật khẩu" << endl;
     cout << "4. Thoát" << endl;
     cout << "Chọn chức năng: ";
-    cin >> choice;
-    cin.ignore();
+    getline(cin, input);
+
+    stringstream ss(input);
+    if (!(ss >> choice)) {
+      cout << "Vui lòng nhập một số hợp lệ." << endl;
+      continue;
+    }
+
     this_thread::sleep_for(chrono::milliseconds(800));
     clearScreen();
 
@@ -193,7 +201,7 @@ int main() {
       cout << "Tạm biệt!" << endl;
       return 0;
     default:
-      cout << "Lựa chọn không hợp lệ." << endl;
+      cout << "Lựa chọn không hợp lệ. Vui lòng chọn từ 1 đến 4." << endl;
     }
   }
 
