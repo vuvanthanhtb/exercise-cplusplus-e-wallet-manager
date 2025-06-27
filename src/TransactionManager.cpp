@@ -89,8 +89,7 @@ bool TransactionManager::transferPoints(User &from, User &to, double amount,
 
   // Bước 1: Tạo và gửi OTP
   string otp = OTPUtil::generate();
-  cout << "Mã OTP đã được gửi: " << otp << endl;
-  ; // Giả lập gửi OTP
+  cout << "Mã OTP đã được gửi: " << otp << endl; // Giả lập gửi OTP
 
   // Bước 2: Cho phép nhập OTP tối đa 3 lần
   int maxAttempts = 3;
