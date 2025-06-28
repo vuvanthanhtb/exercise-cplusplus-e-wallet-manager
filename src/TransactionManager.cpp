@@ -1,4 +1,5 @@
 #include "../include/TransactionManager.h"
+#include "../include/utils/MailUtil.h"
 #include "../include/utils/OTPUtil.h"
 #include <ctime>
 #include <fstream>
@@ -89,8 +90,13 @@ bool TransactionManager::transferPoints(User &from, User &to, double amount,
 
   // Bước 1: Tạo và gửi OTP
   string otp = OTPUtil::generate();
-  cout << "Mã OTP đã được gửi: " << otp << endl;
-  ; // Giả lập gửi OTP
+  string email = from.getEmail();
+  bool isSendMail =
+      MailUtil::sendMail(email, "Xác nhận OTP", "Mã OTP của bạn là: " + otp);
+
+  if (!isSendMail) {
+    return false;
+  }
 
   // Bước 2: Cho phép nhập OTP tối đa 3 lần
   int maxAttempts = 3;
@@ -120,7 +126,6 @@ bool TransactionManager::transferPoints(User &from, User &to, double amount,
         from.setWalletBalance(fromOld);
         to.setWalletBalance(toOld);
         cout << "Chuyển thất bại: " << ex.what() << endl;
-        ;
         return false;
       }
     } else {

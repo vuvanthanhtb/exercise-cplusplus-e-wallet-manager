@@ -27,11 +27,11 @@ public:
 	string getRole() const;
 	string getHashedPassword() const;
 	void display() const;
-	void updateInfo();
+	void updateInfo(string email);
 	void setPassword(const string &hashed);
-	void setId(const std::string &);
+	void setId(const string &);
 	bool verifyEmail(const string &) const;
-	void changePasswordWithOTP();
+	void changePasswordWithOTP(string email);
 
 	string toCSV() const;
 	static User fromCSV(const string &line);

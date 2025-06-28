@@ -1,4 +1,5 @@
 #include "../include/User.h"
+#include "../include/utils/MailUtil.h"
 #include "../include/utils/OTPUtil.h"
 #include "../include/utils/PasswordUtil.h"
 #include "../include/utils/UUIDUtil.h"
@@ -44,14 +45,18 @@ void User::display() const {
 }
 
 // Cập nhật thông tin cá nhân có xác thực OTP
-void User::updateInfo() {
+void User::updateInfo(string email) {
   cout << "Nhập họ tên mới: ";
   getline(cin, fullname);
   cout << "Nhập email mới: ";
   getline(cin, email);
 
   string otp = OTPUtil::generate();
-  cout << "Mã OTP đã được gửi: " << otp << endl; // Giả lập gửi OTP
+  bool isSendMail =
+      MailUtil::sendMail(email, "Xác nhận OTP", "Mã OTP của bạn là: " + otp);
+  if (!isSendMail) {
+    return;
+  }
 
   string input;
   const int maxAttempts = 3;
@@ -102,7 +107,7 @@ User User::fromCSV(const string &line) {
 }
 
 // Thay đổi mật khẩu với xác thực OTP và kiểm tra mật khẩu cũ
-void User::changePasswordWithOTP() {
+void User::changePasswordWithOTP(string email) {
   string currentPass;
   cout << "Nhập mật khẩu hiện tại: ";
   getline(cin, currentPass);
@@ -118,6 +123,11 @@ void User::changePasswordWithOTP() {
 
   string otp = OTPUtil::generate();
   cout << "Mã OTP đã gửi: " << otp << endl;
+  bool isSendMail =
+      MailUtil::sendMail(email, "Xác nhận OTP", "Mã OTP của bạn là: " + otp);
+  if (!isSendMail) {
+    return;
+  }
 
   string input;
   bool timeout = false;

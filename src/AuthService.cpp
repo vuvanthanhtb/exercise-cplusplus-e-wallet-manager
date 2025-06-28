@@ -1,4 +1,5 @@
 #include "../include/AuthService.h"
+#include "../include/utils/MailUtil.h"
 #include "../include/utils/OTPUtil.h"
 #include "../include/utils/PasswordUtil.h"
 #include "../include/utils/RandomUtil.h"
@@ -76,13 +77,12 @@ void AuthService::resetPassword() {
     return;
   }
 
-  // Tạo mật khẩu mới và mã OTP
-  string newPassword = RandomUtil::generateRandomString(8);
   string otp = OTPUtil::generate();
-
-  // Giả lập gửi email
-  cout << "OTP đã được gửi qua email: " << otp << endl;
-  cout << "Mật khẩu mới cũng đã được gửi qua email: " << newPassword << endl;
+  bool isSendMail =
+      MailUtil::sendMail(email, "Xác nhận OTP", "Mã OTP của bạn là: " + otp);
+  if (!isSendMail) {
+    return;
+  }
 
   string inputOtp;
   const int maxAttempts = 3;
@@ -92,10 +92,13 @@ void AuthService::resetPassword() {
     getline(cin, inputOtp);
 
     if (inputOtp == otp) {
+      string newPassword = RandomUtil::generateRandomString(8);
       string hashed = PasswordUtil::hashPassword(newPassword);
       user->setPassword(hashed);
       userManager.saveUsers();
       cout << "Mật khẩu đã được đặt lại thành công." << endl;
+      MailUtil::sendMail(email, "Thông tin mật khẩu",
+                                       "Mật khẩu cuar bạn là: " + hashed);
       return;
     } else if (attempt < maxAttempts) {
       cout << "Mã OTP không đúng. Vui lòng thử lại." << endl;

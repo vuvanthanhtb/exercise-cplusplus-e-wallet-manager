@@ -1,6 +1,28 @@
 # Tóm tắt bài tập E-Wallet
 Dự án mô phông hệ thống E-Wallet (ví điện tử) hoạt động dựa trên giao diện console, cho phép người dùng quản lý tài khoản, chuyển tiền, và theo dõi giao dịch.
 
+## Cài đặt thư viện gửi mail
+
+#### macOS
+```bsh
+brew install curl
+```
+
+#### Ubuntu / Debian
+```bsh
+sudo apt update
+sudo apt install libcurl4-openssl-dev
+```
+
+### Thông tin mail
+- Sử dụng App Password, được tạo [tại đây](https://myaccount.google.com/apppasswords)
+- File: MailUtil.cpp nhập thông tin FROM_EMAIL & APP_PASSWORD để thực hiện chức năng gửi mail
+
+#### Windows
+```bsh
+vcpkg install curl
+```
+
 ## Chức năng chính
 
 ### 1. Đăng nhập (Login)

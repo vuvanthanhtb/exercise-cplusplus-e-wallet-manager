@@ -22,8 +22,12 @@ void handleTransferMoney(User *currentUser, UserManager &userManager,
   string toUsername;
   double amount;
 
-  cout << "Nhập tên người nhận: ";
+  cout << "Nhập tên tài khoản người nhận: ";
   getline(cin, toUsername);
+  if (currentUser->getUsername() == toUsername) {
+    cout << "Không thể thực hiện hành động này trên cùng tài khoản." << endl;
+    return;
+  }
 
   User *recipient = userManager.findByUsername(toUsername);
   if (!recipient) {
@@ -38,15 +42,7 @@ void handleTransferMoney(User *currentUser, UserManager &userManager,
   double totalBalance =
       currentUser->getWalletBalance() + recipient->getWalletBalance();
 
-  bool success =
-      txManager.transferPoints(*currentUser, *recipient, amount, totalBalance);
-
-  if (success) {
-    userManager.saveUsers();
-    cout << "Chuyển tiền thành công!" << endl;
-  } else {
-    cout << "Chuyển tiền thất bại." << endl;
-  }
+  txManager.transferPoints(*currentUser, *recipient, amount, totalBalance);
 }
 
 // Menu chức năng dành cho người dùng có quyền user
@@ -76,11 +72,11 @@ void showUserMenu(User *user, UserManager &userManager,
       user->displayWallet();
       break;
     case 3:
-      user->updateInfo();
+      user->updateInfo(user->getEmail());
       userManager.saveUsers();
       break;
     case 4:
-      user->changePasswordWithOTP();
+      user->changePasswordWithOTP(user->getEmail());
       userManager.saveUsers();
       break;
     case 5:
@@ -126,11 +122,11 @@ void showAdminMenu(User *user, UserManager &userManager,
       authService.registerUser();
       break;
     case 3:
-      user->updateInfo();
+      user->updateInfo(user->getEmail());
       userManager.saveUsers();
       break;
     case 4:
-      user->changePasswordWithOTP();
+      user->changePasswordWithOTP(user->getEmail());
       userManager.saveUsers();
       break;
     case 5:
