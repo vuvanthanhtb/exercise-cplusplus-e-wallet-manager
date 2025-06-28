@@ -14,7 +14,7 @@ sudo apt update
 sudo apt install libcurl4-openssl-dev
 ```
 
-### Thông tin mail
+#### Thông tin mail
 - Sử dụng App Password, được tạo [tại đây](https://myaccount.google.com/apppasswords)
 - File: MailUtil.cpp nhập thông tin FROM_EMAIL & APP_PASSWORD để thực hiện chức năng gửi mail
 
