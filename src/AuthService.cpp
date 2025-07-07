@@ -40,8 +40,8 @@ void AuthService::registerUser() {
   getline(cin, username);
   cout << "Email: ";
   getline(cin, email);
-  cout << "Mật khẩu: ";
-  getline(cin, password);
+  // cout << "Mật khẩu: ";
+  // getline(cin, password);
 
   // Nếu không có người dùng hiện tại (tức là người dùng tự đăng ký)
   if (currentUser->getUsername().empty()) {
@@ -54,6 +54,13 @@ void AuthService::registerUser() {
   // Kiểm tra tên đăng nhập đã tồn tại
   if (userManager.findByUsername(username)) {
     cout << "Tên đăng nhập đã tồn tại.\n";
+    return;
+  }
+
+  password = RandomUtil::generateRandomString(8);
+  bool isSendMail =
+      MailUtil::sendMail(email, "Mật khẩu", "Mật khẩu của bạn là: " + password);
+  if (!isSendMail) {
     return;
   }
 
@@ -98,7 +105,7 @@ void AuthService::resetPassword() {
       userManager.saveUsers();
       cout << "Mật khẩu đã được đặt lại thành công." << endl;
       MailUtil::sendMail(email, "Thông tin mật khẩu",
-                                       "Mật khẩu cuar bạn là: " + hashed);
+                         "Mật khẩu cuar bạn là: " + hashed);
       return;
     } else if (attempt < maxAttempts) {
       cout << "Mã OTP không đúng. Vui lòng thử lại." << endl;
