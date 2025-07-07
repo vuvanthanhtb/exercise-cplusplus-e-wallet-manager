@@ -48,10 +48,12 @@ User *UserManager::authenticate(const string &username,
 bool UserManager::addUser(const User &user) {
   for (const auto &u : users) {
     if (u.getUsername() == user.getUsername()) {
-      return false; // Username đã tồn tại
+      cout << "Username đã tồn tại" << endl;
+      return false;
     }
 
     if (u.getEmail() == user.getEmail()) {
+      cout << "Email đã tồn tại" << endl;
       return false;
     }
   }

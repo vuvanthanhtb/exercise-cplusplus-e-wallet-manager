@@ -58,18 +58,19 @@ void AuthService::registerUser() {
   }
 
   password = RandomUtil::generateRandomString(8);
-  bool isSendMail =
-      MailUtil::sendMail(email, "Mật khẩu", "Mật khẩu của bạn là: " + password);
-  if (!isSendMail) {
-    return;
-  }
 
   // Mã hóa mật khẩu và tạo tài khoản
   string hashed = PasswordUtil::hashPassword(password);
   User newUser(fullname, username, email, hashed, role, 0.0);
-  userManager.addUser(newUser);
-
-  cout << "Tạo tài khoản thành công." << endl;
+  bool isCreated = userManager.addUser(newUser);
+  if (isCreated) {
+    cout << "Tạo tài khoản thành công." << endl;
+    bool isSendMail = MailUtil::sendMail(email, "Mật khẩu",
+                                         "Mật khẩu của bạn là: " + password);
+    if (!isSendMail) {
+      MailUtil::sendMail(email, "Mật khẩu", "Mật khẩu của bạn là: " + password);
+    }
+  }
 }
 
 // Đặt lại mật khẩu qua email
