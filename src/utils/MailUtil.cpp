@@ -7,8 +7,8 @@
 using namespace std;
 
 // Thông tin mail
-#define FROM_EMAIL "vuthanhtb.dev@gmail.com"
-#define APP_PASSWORD "rzhffaiiiptcvmbo"
+#define FROM_EMAIL ""
+#define APP_PASSWORD ""
 
 struct UploadStatus {
   size_t linesRead;
