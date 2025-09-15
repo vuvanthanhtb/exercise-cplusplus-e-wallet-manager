@@ -65,10 +65,10 @@ vcpkg install curl
 ### 8. Lịch sử giao dịch (Đỗ Đức Huy)
 - Hiển thị danh sách giao dịch chuyển/đã nhận với thời gian.
 
-### 9. Xóa màn hình sau mỗi tính năng
+### 9. Xóa màn hình sau mỗi tính năng (Đỗ Đức Huy)
 - Sử dụng `system("clear")` trên Linux/macOS hoặc `system("cls")` trên Windows.
 
-## Cấu trúc file (Đỗ Đức Huy)
+## Cấu trúc file
 - `main.cpp` - Điểm khởi đầu và giao diện menu.
 - `UserManager.*` - Quản lý danh sách user.
 - `User.*` - Lớp đại diện user.
