@@ -62,13 +62,13 @@ vcpkg install curl
 - OTP sinh ngẫu nhiên cho xác minh.
 - OTP timeout sau 60 giây khi đổi mật khẩu.
 
-### 8. Lịch sử giao dịch
+### 8. Lịch sử giao dịch (Đỗ Đức Huy)
 - Hiển thị danh sách giao dịch chuyển/đã nhận với thời gian.
 
 ### 9. Xóa màn hình sau mỗi tính năng
 - Sử dụng `system("clear")` trên Linux/macOS hoặc `system("cls")` trên Windows.
 
-## Cấu trúc file
+## Cấu trúc file (Đỗ Đức Huy)
 - `main.cpp` - Điểm khởi đầu và giao diện menu.
 - `UserManager.*` - Quản lý danh sách user.
 - `User.*` - Lớp đại diện user.
