@@ -25,20 +25,20 @@ vcpkg install curl
 
 ## Chức năng chính
 
-### 1. Đăng nhập (Login)
+### 1. Đăng nhập (Login) (Vũ Văn Thanh)
 - Xác thực dựa trên username và password.
 - Mã hóa password bằng `PasswordUtil`.
 
-### 2. Đăng ký tài khoản (Register)
+### 2. Đăng ký tài khoản (Register) (Vũ Văn Thanh)
 - Tạo user mới với họ tên, email, username, password.
 - Phân quyền: user/admin.
 - Kiểm tra username trùng lặp.
 
-### 3. Quên mật khẩu (Reset Password)
+### 3. Quên mật khẩu (Reset Password) (Vũ Văn Thanh)
 - Tìm user theo email.
 - Cho nhập password mới và lưu vào database.
 
-### 4. Giao diện User
+### 4. Giao diện User (Đỗ Hữu Tự)
 - Xem thông tin tài khoản.
 - Xem số dư ví.
 - Cập nhật họ tên/email (OTP).
@@ -46,19 +46,19 @@ vcpkg install curl
 - Chuyển tiền cho user khác.
 - Xem lịch sử giao dịch (đi/nhận).
 
-### 5. Giao diện Admin
+### 5. Giao diện Admin (Đỗ Hữu Tự)
 - Xem danh sách tất cả user.
 - Đăng ký user mới.
 - Cập nhật thông tin và đổi password (admin).
 - Chuyển tiền.
 - Cập nhật thông tin user theo username (gửi OTP).
 
-### 6. Giao dịch chuyển tiền (OTP)
+### 6. Giao dịch chuyển tiền (OTP) (Đặng Anh Đức)
 - Ghi lại giao dịch vào file CSV.
 - Kiểm tra số dư người gửi, và ràng buộc tổng số dư sau khi chuyển không thay đổi.
 - Ghi nhật ký chi tiết.
 
-### 7. OTP và Timeout
+### 7. OTP và Timeout (Đặng Anh Đức)
 - OTP sinh ngẫu nhiên cho xác minh.
 - OTP timeout sau 60 giây khi đổi mật khẩu.
 
